@@ -65,6 +65,7 @@ def eventHandling():
 
 def playerShooting():
 	playerFireDirection = [[0,0],[0,0]]
+
 	for joystick in joysticks:
 		if joystick.get_button(0) and joystick.get_button(1): # buttons for shooting need to be outside the event handler to repeat fire while holding
 			playerFireDirection[joystick.get_id()] = [1,1]
@@ -83,8 +84,11 @@ def playerShooting():
 		elif joystick.get_button(2):
 			playerFireDirection[joystick.get_id()] = [-1,0]
 
-	player1Sprite.shoot(playerFireDirection[0])
-	player2Sprite.shoot(playerFireDirection[1])
+		if playerFireDirection[0] != [0,0]:
+			player1Sprite.shoot(playerFireDirection[0])
+			
+		if playerFireDirection[1] != [0,0]:
+			player2Sprite.shoot(playerFireDirection[1])
 
 
 
@@ -97,7 +101,9 @@ while True:
 
 	if game.gameActive:
 		player1.draw(screen)
+		player1Sprite.arrows.draw(screen)
 		player2.draw(screen)
+		player2Sprite.arrows.draw(screen)
 
 		resetPlayerMotion()	
 		playerShooting()
