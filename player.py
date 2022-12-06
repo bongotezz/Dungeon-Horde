@@ -22,7 +22,11 @@ class Player(pygame.sprite.Sprite):
 
     def movePlayer(self,direction):  	
     	self.rect.centerx += direction[0] * self.speed
-    	self.rect.centery += direction[1] * self.speed		
+    	self.rect.centery += direction[1] * self.speed	
+
+    def shoot(self, angle):
+        pass
+
 
     def update(self, direction):
     	self.movePlayer(direction)
