@@ -24,17 +24,34 @@ class Player(pygame.sprite.Sprite):
         # arrow sprite group. arrows shot by the player
         self.arrows = pygame.sprite.Group()
 
+        # shooting timer
+        self.shootDelay = 200 # delay in ticks for firing arrows
+        self.lastShot = pygame.time.get_ticks() # the last time a arrow was fired
+        self.ready = True
+
+        self.maxHP = 100
+        self.currentHP = 100
+
 
     def movePlayer(self,direction):  	
     	self.rect.centerx += direction[0] * self.speed
     	self.rect.centery += direction[1] * self.speed	
 
     def shoot(self, angle):
-        arrow = Arrow(self.rect.center,angle)
-        self.arrows.add(arrow)
-        print(self.arrows)
+        if self.ready:
+            arrow = Arrow(self.rect.center,angle)
+            self.arrows.add(arrow)
+            self.ready = False
+
+    def checkReadyFire(self):
+        if self.ready == False:
+            currentTime = pygame.time.get_ticks()
+            if currentTime - self.lastShot >= self.shootDelay:
+                self.ready = True
+                self.lastShot = pygame.time.get_ticks()
 
     def update(self, direction):
         self.movePlayer(direction)
         self.arrows.update()
+        self.checkReadyFire()
 
